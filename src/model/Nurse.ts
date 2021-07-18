@@ -1,7 +1,6 @@
 import { Vaccine } from '../shared/interface/Vaccine';
 import { InjectLicense } from '../shared/interface/InjectLicense';
 import { Human } from '../shared/interface/Human';
-// import { Person } from './NonMedicalStaff';
 import { Priority } from "./Priority";
 
 class Nurse implements Human, InjectLicense {

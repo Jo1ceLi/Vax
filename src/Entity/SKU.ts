@@ -5,7 +5,7 @@ import { Period } from "./Period";
 @Entity()
 export class SKU {
     @ObjectIdColumn()
-    _id?: string
+    _id?: string;
 
     @ObjectIdColumn()
     hospital_id: ObjectID;

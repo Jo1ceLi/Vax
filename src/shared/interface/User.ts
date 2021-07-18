@@ -1,5 +1,3 @@
-import { InjectLicense } from './InjectLicense';
-
 export interface User 
 {
     id: string;

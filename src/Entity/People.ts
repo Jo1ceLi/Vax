@@ -7,10 +7,10 @@ import { Priority } from "../model/Priority";
 @Entity()
 export abstract class People implements Human{
     @ObjectIdColumn()
-    _id?: string
+    _id?: string;
 
     @Column()
-    id: string
+    id: string;
 
     @Column()
     name: string;

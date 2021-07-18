@@ -5,7 +5,6 @@ import { InjectLicense } from '../shared/interface/InjectLicense';
 import { Human } from '../shared/interface/Human';
 import { Priority } from './Priority';
 
-
 export class NonMedicalStaff implements Human {
     id: any;
     name: any;
@@ -16,8 +15,3 @@ export class NonMedicalStaff implements Human {
         console.log(`${this.name} has vaccined a ${vaccine.name} vaccine by ${injector.constructor.name}`);
     }
 }
-
-var John = new NonMedicalStaff();
-var dr = new Doctor();
-John.Vax(AZ, dr);
-

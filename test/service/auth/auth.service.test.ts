@@ -1,30 +1,58 @@
+import { getMongoRepository, createConnection, MongoRepository } from 'typeorm';
+import { permit, authenticate } from '../../../src/service/auth/auth.service';
+import { createMockContext } from '@shopify/jest-koa-mocks';
+import { userRepo } from '../../../src/repository/user.repository';
+import { User } from '../../../src/Entity/User';
 import jwt from 'jsonwebtoken';
 jest.mock('jsonwebtoken');
-import { isOne } from '../../../src/service/auth/isOne.service'
 
+beforeAll(async ()=>{
+    await createConnection();
+    let mockUser = { 
+        _id: '33',
+        id: '22',
+        email: 'gg',
+        password: '**'
+    } as User
+    jest.spyOn(userRepo(), 'findOne').mockResolvedValue(mockUser);
+    const verify = jwt.verify as jest.MockedFunction<(st: string)=> Record<string, unknown> | string>;
+    verify.mockReturnValue({priority: 1, id: 22});
 
-
-const verify = jwt.verify as jest.MockedFunction<(st: string)=> Record<string, unknown> | string>
-verify.mockReturnValue({priority: 1});
-
-// const mockIsOne = isOne as jest.MockedFunction<typeof isOne>
+})
 
 describe('Mocking jwt verify and test', () => {
+    const ctx = createMockContext();
     test('Testing jwt verify match {priority: 1}', ()=>{
-        expect(jwt.verify('', '')).toMatchObject({priority: 1});
+        expect(jwt.verify('', '')).toMatchObject({priority: 1, id: 22});
+    })
+    test('Permit priority 1 to access', () => {
+        ctx.request.headers.authorization = '12341234123';
+        permit([1,2,3,4,5])(ctx, async()=>{});
+        expect(ctx.state.access).toBeTruthy();
     })
 });
 
-// const mockIsOne = isOne as jest.MockedFunction<(arg0: number) => boolean>
-// mockIsOne.mockImplementation((k: number) => {
-//     return k ===3
-// })
-// isOne.
-
-
-// test('JWT payload priority equal 1', () => {
-//     // console.log(isOne()(1) === true)
-//     // expect(isOne()(3)).toBeFalsy();
-//     // expect(isOne()(1)).toBeTruthy();
-//     expect(isOne()(3)).toBeTruthy();
-// })
+describe('Testing authenticate function works', () => {
+    test('userRepo findOne return {user: `mock`}', async () => {
+        const user = await userRepo().findOne();
+        expect(user).toMatchObject({ 
+            _id: '33',
+            id: '22',
+            email: 'gg',
+            password: '**'
+        });
+    })
+})
+describe('Authenticate ', () => {
+    test('first ', async () => {
+        let ctx = createMockContext();
+        ctx.request.headers.authorization = 'anything'
+        await authenticate(ctx, async ()=>{});
+        expect(ctx.state.user).toMatchObject({ 
+            _id: '33',
+            id: '22',
+            email: 'gg',
+            password: '**'
+        });
+    })
+})

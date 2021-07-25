@@ -1,6 +1,7 @@
 import { Priority } from './../../model/Priority';
 import { getMongoRepository } from 'typeorm';
 import { User } from '../../Entity/User';
+import { userRepo as usRepo } from '../../repository/user.repository';
 import { Context, Next } from 'koa';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
@@ -9,7 +10,8 @@ let authenticate = async (ctx: Context, next: Next) => {
         let token = ctx.request.headers.authorization;
         if (token) {
             let decoded = jwt.verify(token, 'secret') as JwtPayload;
-            let userRepo = getMongoRepository(User);
+            let userRepo = usRepo();
+            // let userRepo = getMongoRepository(User);
             let user = await userRepo.findOne({id: decoded.id});
             ctx.state.user = user;
         }

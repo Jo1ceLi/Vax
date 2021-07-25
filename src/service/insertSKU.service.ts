@@ -8,7 +8,8 @@ import { time } from 'console';
 
 export async function insertSKU(ctx: Context) {
     const skuRepo = getMongoRepository(SKU);
-    var startTime = new Date('2021-07-18T06:00:00Z');
+    const date = '2021-07-24';
+    var startTime = new Date(date+'T06:00:00Z');
 
     for(let times=0; times < 5; times++) {
         var periods: Period[] = [];
@@ -22,7 +23,7 @@ export async function insertSKU(ctx: Context) {
             period.bnt_stock = Math.floor(Math.random() * 10) + period.bnt_reservation_quota;
             period.moderna_stock = Math.floor(Math.random() * 10) + period.moderna_reservation_quota;
             period.time = new Date(startTime.setMinutes(startTime.getMinutes() + 30 * i ));
-            startTime = new Date('2021-07-19T06:00:00Z');
+            startTime = new Date(date + 'T06:00:00Z');
             periods.push(period);
         }
         const ramdomId = ids[Math.floor(Math.random()*(10-times))];
@@ -30,7 +31,7 @@ export async function insertSKU(ctx: Context) {
         console.log(ramdomId);
         const sku = await skuRepo.save({
             hospital_id: new ObjectID(ramdomId),
-            date: new Date('2021-07-19'),
+            date: new Date(date),
             periods
         })
     }

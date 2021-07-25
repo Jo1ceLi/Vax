@@ -6,7 +6,7 @@ var router = new Router({
     prefix: '/hospital'
 });
 router
-// .get('/insertHospital', insertHospital)    testing
+    // .get('/insertHospital', insertHospital)    //testing
     .get('/insertTime', insertSKU)             //testing
 
     .get('/', getAllHospital)

@@ -15,13 +15,15 @@ export class App {
             try {
                 await next();
             } catch (err) {
-                ctx.status = err.status || 500;
-                ctx.body = err.message;
+                // ctx.status = err.status || 500;
+                // ctx.body = err.message;
                 ctx.app.emit(`error`, err, ctx);
             }
         })
         App.app.on('error', (err, ctx) => { 
             console.log(err);
+            err.expose = true; // Dev 
+            // ctx.response.status = 410;
         })
         createConnection().then(connection=>{
             console.log(`Successful create connection ${connection.name}`);

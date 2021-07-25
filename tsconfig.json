@@ -5,7 +5,7 @@
       "lib": [
         "es2018"
       ],
-      "types": ["reflect-metadata"],
+      "types": ["reflect-metadata", "jest"],
       "sourceMap": true,
       "outDir": "./dist",
       "moduleResolution": "node",
@@ -25,10 +25,11 @@
       "baseUrl": "."
     },
     "exclude": [
-      "node_modules"
+      "node_modules","**/*.spec.ts", "**/*.test.ts"
     ],
     "include": [
       "./src/**/*.tsx",
-      "./src/**/*.ts"
+      "./src/**/*.ts",
+      "./test/**/*.ts"
     ]
   }

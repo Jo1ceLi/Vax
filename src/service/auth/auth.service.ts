@@ -1,6 +1,4 @@
 import { Priority } from './../../model/Priority';
-import { getMongoRepository } from 'typeorm';
-import { User } from '../../Entity/User';
 import { userRepo as usRepo } from '../../repository/user.repository';
 import { Context, Next } from 'koa';
 import jwt, { JwtPayload } from 'jsonwebtoken';
@@ -10,7 +8,7 @@ let authenticate = async (ctx: Context, next: Next) => {
         let token = ctx.request.headers.authorization;
         if (token) {
             let decoded = jwt.verify(token, 'secret') as JwtPayload;
-            let userRepo = usRepo();
+            let userRepo = usRepo('prod');
             // let userRepo = getMongoRepository(User);
             let user = await userRepo.findOne({id: decoded.id});
             ctx.state.user = user;
@@ -22,16 +20,12 @@ let authenticate = async (ctx: Context, next: Next) => {
         ctx.status = 401;
     }
 }
-let sum = (a: number, b: number) => {
-    return a+b
-}
-
-
 
 let permit = (allowedPriorities: Priority[]) => {
     return async(ctx: Context, next: Next) =>{
         let token = ctx.request.headers.authorization;
         if (token) {
+            ctx.state.access = false;
             let decoded = jwt.verify(token, 'secret') as JwtPayload;
             if(allowedPriorities.includes(decoded.priority)) {
                 ctx.state.access = true;
@@ -41,4 +35,4 @@ let permit = (allowedPriorities: Priority[]) => {
         await next();
     }
 }
-export { authenticate, permit, sum };
+export { authenticate, permit };

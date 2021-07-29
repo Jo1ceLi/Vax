@@ -23,6 +23,7 @@
     "mongodb": "^3.6.10",
     "node": "^16.4.0",
     "reflect-metadata": "^0.1.13",
+    "tsyringe": "^4.6.0",
     "typeorm": "^0.2.34"
   },
   "devDependencies": {

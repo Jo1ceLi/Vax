@@ -98,7 +98,6 @@ export class ReserveService implements IReserveService {
             },
         ]).toArray();
         ctx.body = sku;
-        await next();
     }
 
     getAvaliableReserveTimeByHospitalId = async (ctx: Context) => {

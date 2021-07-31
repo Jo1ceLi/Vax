@@ -15,6 +15,7 @@ export class ReserveController {
     }
     
     getAvaliableHospital = async (ctx: Context, next: Next) => {
+        await next();
         await this.reserveService.getAvaliableHospital(ctx, next);
     }
     getAvaliableReserveTimeByHospitalId = async (ctx: Context) => {

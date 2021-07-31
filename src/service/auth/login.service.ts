@@ -1,5 +1,4 @@
 import { getMongoRepository } from 'typeorm';
-import { getRepository } from 'typeorm';
 import { Context } from "koa";
 import { User } from '../../Entity/User';
 import jwt from 'jsonwebtoken';
@@ -9,10 +8,9 @@ import { People } from '../../Entity/People';
 async function login(ctx: Context) {
     var body: LoginInput = JSON.parse(ctx.request.rawBody);
     const { email, password } = body;
-    const userRepository = getRepository(User);
+    const userRepository = getMongoRepository(User);
     const pplRepo = getMongoRepository(People);
     const user = await userRepository.findOne({email});
-    
     if (user) {
         if(bcrypt.compareSync(password, user!.password)) {
             let ppl = await pplRepo.findOne({id: user.id});

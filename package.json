@@ -23,8 +23,9 @@
     "mongodb": "^3.6.10",
     "node": "^16.4.0",
     "reflect-metadata": "^0.1.13",
-    "tsyringe": "^4.6.0",
-    "typeorm": "^0.2.34"
+    "typedi": "^0.10.0",
+    "typeorm": "^0.2.34",
+    "typeorm-typedi-extensions": "^0.4.1"
   },
   "devDependencies": {
     "@shopify/jest-koa-mocks": "^3.0.1",

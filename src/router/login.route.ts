@@ -26,14 +26,11 @@ class LoginRoute
         this.router
             .post('/login', async (ctx, next)=>{
                 await this.loginController.login(ctx, next);
-            }, middle)
+            })
             .post('/register', async(ctx, next) => {
                 await this.registerController.register(ctx, next);
                 await next();
             })
     }
-}
-let middle = async (ctx, next) => {
-    console.log('into this middleware');
 }
 export {LoginRoute}

@@ -10,20 +10,23 @@ import { Priority } from "../model/Priority";
 @Service()
 class ReserveRoute {
     authService: AuthService;
-    reserveService: IReserveService;
+    reserveService: ReserveService;
     router: Router;
     reserveControllers: ReserveController;
-    constructor(authService: AuthService) {
+    constructor(authService: AuthService, reserveController: ReserveController) {
         this.authService = authService;
-        this.reserveControllers = new ReserveController();
+        this.reserveControllers = reserveController;
         this.setupRoute();
     }
     setupRoute() {
         this.router = new Router({prefix: '/reserve'});
         this.router
-            // .get('/', permit([1,2,3,4,5]), this.authService.authLogin, this.reserveControllers.getAvaliableHospital)
-            .get('/', this.reserveControllers.getAvaliableHospital, async (ctx, next)=>{
+            .get('/', this.reserveControllers.getAvaliableHospital, 
+            async (ctx, next)=>{
                 await this.authService.authLogin(ctx,next);
+            },
+            (ctx, next)=>{
+                this.authService.permitPriority([1,2,3,4,5])(ctx, next);
             })
             .get('/:hospitalId', this.reserveControllers.getAvaliableReserveTimeByHospitalId)
             .post('/:hospitalId/:time', async(ctx, next)=>{
@@ -34,5 +37,3 @@ class ReserveRoute {
     }
 }
 export {ReserveRoute};
-// const reserveRoute = new ReserveRoute(Container.get(AuthService)).router.routes()
-// export { reserveRoute }

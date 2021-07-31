@@ -29,18 +29,18 @@ class AuthService
             ctx.throw(err.message);
         }
     }
-    async permitPriority(allowedPriorities: Priority[]): Promise<(ctx: Context, next: Next) => Promise<void>> {
-        return async(ctx: Context, next: Next) =>{
+    permitPriority = (allowedPriorities: Priority[]) => {
+        return (ctx: Context, next: Next) =>{
             let token = ctx.request.headers.authorization;
             if (token) {
                 ctx.state.access = false;
                 let decoded = jwt.verify(token, 'secret') as JwtPayload;
                 if(allowedPriorities.includes(decoded.priority)) {
                     ctx.state.access = true;
+                    console.log(`Pass the priority check`)
                 }
             }
             ctx.assert.equal(ctx.state.access, true, 401);
-            await next();
         } 
     }
 }

@@ -5,10 +5,10 @@ export abstract class User {
     @ObjectIdColumn()
     _id?: string;
 
-    @Column()
+    @Column({unique: true})
     id: string;
 
-    @Column()
+    @Column({unique: true})
 
     email: string;
 

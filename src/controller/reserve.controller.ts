@@ -3,7 +3,7 @@ import { Context, Next } from 'koa';
 import { ReserveService } from './../service/reserve.service';
 import { IReserveService } from "../service/reserve.service";
 import { BaseController } from './base.controller';
-import { authenticate } from './../service/auth/auth.service'; 
+// import { authenticate } from './../service/auth/auth.service'; 
 
 @Service()
 class ReserveController {
@@ -16,7 +16,8 @@ class ReserveController {
         await next();
         await this.reserveService.getAvaliableHospital(ctx, next);
     }
-    getAvaliableReserveTimeByHospitalId = async (ctx: Context) => {
+    getAvaliableReserveTimeByHospitalId = async (ctx: Context, next: Next) => {
+        await next()
         await this.reserveService.getAvaliableReserveTimeByHospitalId(ctx);
     }
 }

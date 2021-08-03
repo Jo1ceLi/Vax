@@ -2,24 +2,9 @@ import { Container } from 'typeorm-typedi-extensions';
 import { createConnection, useContainer } from 'typeorm';
 import Router from 'koa-router';
 // import { homeRoute, hospitalRoute, reserveRoute } from './routeCenter';
-import { homeRoute, hospitalRoute } from './routeCenter';
-import {LoginRoute} from './login.route';
-import { ReserveRoute } from './reserve.route';
+// import { homeRoute, hospitalRoute } from './routeCenter';
+import { LoginRoute, ReserveRoute } from './index.route';
 
-var router = new Router();
-
-const routers: Router.IMiddleware[] = [
-    // homeRoute, hospitalRoute, reserveRoute
-    homeRoute, hospitalRoute
-];
-
-routers.forEach( middleware => {
-    router.use(middleware);
-})
-
-const routes = router.routes();
-
-export { routes };
 
 
 export async function connectdbAndSetRouter(): Promise<Router.IMiddleware<any, {}>> {

@@ -1,11 +1,8 @@
 import { Service, Inject, Container } from 'typedi';
 import { AuthService } from './../service/auth/auth.service';
 import Router from "koa-router";
-import { authenticate, permit } from "../service/auth/auth.service"; 
-import { BaseController } from "../controller/base.controller";
 import { ReserveController } from "../controller/reserve.controller";
-import { IReserveService, ReserveService } from "../service/reserve.service";
-import { Priority } from "../model/Priority";
+import { ReserveService } from "../service/reserve.service";
 
 @Service()
 class ReserveRoute {
@@ -28,7 +25,14 @@ class ReserveRoute {
             (ctx, next)=>{
                 this.authService.permitPriority([1,2,3,4,5])(ctx, next);
             })
-            .get('/:hospitalId', this.reserveControllers.getAvaliableReserveTimeByHospitalId)
+            .get('/:hospitalId', this.reserveControllers.getAvaliableReserveTimeByHospitalId, 
+            async (ctx, next)=>{
+                await this.authService.authLogin(ctx,next);
+            },
+            (ctx, next)=>{
+                this.authService.permitPriority([1,2,3,4,5])(ctx, next);
+            })
+            // TODO: 
             .post('/:hospitalId/:time', async(ctx, next)=>{
                 console.log(ctx.params.hospitalId, ctx.params.time);
                 ctx.body = `${ctx.params.hospitalId} at ${ctx.params.time}`;

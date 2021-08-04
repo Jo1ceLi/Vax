@@ -9,9 +9,18 @@ export abstract class User {
     id: string;
 
     @Column({unique: true})
-
     email: string;
 
     @Column()
     password: string;
+
+    @Column()
+    role: Role
+}
+
+enum Role {
+    Admin,
+    GovernmentSupervisor,
+    HospitalSupervisor,
+    User
 }

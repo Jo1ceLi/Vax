@@ -16,7 +16,7 @@ export abstract class People implements Human{
     name: string;
     
     @Column()
-    priority;
+    priority: Priority;
     
     @Column()
     vaccined: Vaccine[];

@@ -24,7 +24,8 @@ describe('Auth service ', () => {
         let mockedUser: User = {
             id: '1',
             email: "ms",
-            password: ""
+            password: "",
+            role: 0
         }
         mockUserRepo.findOneOrFail.mockResolvedValue(mockedUser);
         let authService = new AuthService(mockUserRepo);

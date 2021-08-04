@@ -9,7 +9,7 @@ export abstract class People implements Human{
     @ObjectIdColumn()
     _id?: string;
 
-    @Column()
+    @Column({unique: true})
     id: string;
 
     @Column()

@@ -16,4 +16,12 @@ export class Hospital{
     
     @Column()
     tel: string;
+    
+    @Column()
+    vaxStock: VaxStock[];
+}
+
+type VaxStock = {
+    vaxName: string;
+    amount: number;
 }

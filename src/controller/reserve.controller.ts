@@ -7,7 +7,7 @@ import { BaseController } from './base.controller';
 
 @Service()
 class ReserveController {
-    reserveService: ReserveService;
+    private reserveService: ReserveService;
     constructor(reserveService: ReserveService) {
         this.reserveService = reserveService;
     }

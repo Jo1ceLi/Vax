@@ -18,7 +18,7 @@ export abstract class User {
     role: Role
 }
 
-enum Role {
+export enum Role {
     Admin,
     GovernmentSupervisor,
     HospitalSupervisor,

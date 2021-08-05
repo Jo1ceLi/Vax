@@ -4,7 +4,7 @@ import { Service } from 'typedi';
 import { Priority } from './../../model/Priority';
 import { Context, Next } from 'koa';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import { User } from '../../Entity/User';
+import { Role, User } from '../../Entity/User';
 
 @Service()
 class AuthService
@@ -47,6 +47,29 @@ class AuthService
                 ctx.throw(401);
             }
         } 
+    }
+    authRole = (allowedRoles: Role[]) => {
+        return (ctx: Context, next: Next) => {
+            try {
+                let token = ctx.request.headers.authorization;
+                if (token) {
+                    ctx.state.access = false;
+                    let decoded = jwt.verify(token, 'secret') as JwtPayload;
+                    if(allowedRoles.includes(decoded.role)) {
+                        ctx.state.access = true;
+                    }
+                    else {
+                        ctx.throw(401);
+                    }
+                }
+                else {
+                    ctx.throw(401);
+                }
+            }
+            catch (err) {
+                ctx.throw(401);
+            }
+        }
     }
 }
 export {AuthService};

@@ -44,4 +44,26 @@ describe('Auth service ', () => {
         expect(ctx.state.access).toBeDefined();
         expect(ctx.state.access).toBeTruthy();
     })
+    test('Test Authenticate Role Middleware Passed', async () => {
+        let authService = Container.get(AuthService);
+        let ctx = createMockContext();
+        const verify = jwt.verify as jest.MockedFunction<(st: string)=> Record<string, unknown> | string>;
+        verify.mockReturnValue({priority: 1, id: 22, role: 0});
+        ctx.request.headers.authorization = 'randomtextNoneSense';
+        let next = jest.fn(async()=>{});
+        authService.authRole([0])(ctx, next);
+        expect(ctx.state.access).toBeDefined();
+        expect(ctx.state.access).toBeTruthy();
+    })
+    test('Test Authenticate Role Middleware Failed', async () => {
+        let authService = Container.get(AuthService);
+        let ctx = createMockContext();
+        const verify = jwt.verify as jest.MockedFunction<(st: string)=> Record<string, unknown> | string>;
+        verify.mockReturnValue({priority: 1, id: 22, role: 0});
+        ctx.request.headers.authorization = 'randomtextNoneSense';
+        let next = jest.fn(async()=>{});
+        authService.authRole([1,2,3])(ctx, next);
+        expect(ctx.state.access).toBeDefined();
+        expect(ctx.state.access).toBeFalsy();
+    })
 })

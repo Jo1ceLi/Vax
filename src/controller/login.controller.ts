@@ -28,7 +28,8 @@ class LoginController
                     {
                         id: user.id,
                         email: user.email,
-                        priority: ppl?.priority
+                        priority: ppl?.priority,
+                        role: user.role
                     }, 'secret', {expiresIn: 60});
                 ctx.body = `Successful login please use this token:\n${token}`;
             }

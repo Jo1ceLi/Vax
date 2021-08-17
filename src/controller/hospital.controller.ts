@@ -21,6 +21,10 @@ class HospitalController {
         this.authService.authRole([Role.Admin, Role.GovernmentSupervisor])(ctx, next);
         await this.hospitalService.allocateVax(ctx, next);
     }
+    arrangeVaccinationTime = async (ctx: Context, next: Next) => {
+        // this.authService.authRole([Role.Admin, Role.HospitalSupervisor])(ctx, next);
+        await this.hospitalService.arrangeVaccinationTime(ctx, next);
+    }
 }
 
 export { HospitalController }

@@ -21,7 +21,6 @@ class AuthService
             let decoded = jwt.verify(token!, 'secret') as JwtPayload;
             let user = await this.userRepo.findOneOrFail({id: decoded.id});
             ctx.state.user_id = user.id;
-            console.log('You could pass')
             await next();
         }
         catch (err) {
@@ -38,7 +37,6 @@ class AuthService
                     
                     if(allowedPriorities.includes(decoded.priority)) {
                         ctx.state.access = true;
-                        console.log(`Pass the priority check`)
                     }
                 }
                 ctx.assert.equal(ctx.state.access, true, 401);

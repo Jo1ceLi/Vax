@@ -33,6 +33,7 @@ class HospitalRoute
             .get('/', this.hospitalController.getAllHospital)
             .post('/allocateVax', this.hospitalController.allocateVax)
             .get('/:hospitalId', this.hospitalController.getHospitalById)
+            .post('/arragneVaccinationTime', this.hospitalController.arrangeVaccinationTime);
     }
 }
 export { HospitalRoute }
